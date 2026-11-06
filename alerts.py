@@ -5,10 +5,6 @@ from pathlib import Path
 from datetime import datetime
 
 
-# ==========================================
-# CONFIGURAÇÕES
-# ==========================================
-
 PASTA = Path(__file__).resolve().parent
 DB_PATH = PASTA / "data" / "docker_monitor.db"
 
@@ -79,9 +75,6 @@ class AlertManager:
 
         print("[INFO] Sistema de alertas preparado.")
 
-    # ======================================
-    # ABRIR OU ATUALIZAR ALERTA
-    # ======================================
 
     def registrar_alerta(
         self,
@@ -149,10 +142,7 @@ class AlertManager:
             f"[ALERTA {nivel}] {container}: {mensagem}"
         )
 
-    # ======================================
-    # RESOLVER ALERTA
-    # ======================================
-
+    
     def resolver_alerta(self, container, tipo):
 
         cursor = self.conn.execute("""
@@ -179,9 +169,6 @@ class AlertManager:
 
         return None
 
-        # ======================================
-    # ENCERRAR ALERTA POR PARADA DO CONTAINER
-    # ======================================
 
     def encerrar_alerta(self, container, tipo):
 
@@ -215,9 +202,7 @@ class AlertManager:
             )
 
         return None
-    # ======================================
-    # VERIFICAR CPU E RAM
-    # ======================================
+ 
 
     def verificar_metricas(self, metricas):
 
@@ -228,7 +213,6 @@ class AlertManager:
         cpu = float(metricas["cpu_percent"])
         ram = float(metricas["memory_percent"])
 
-        # CPU
 
         if cpu > LIMITE_CPU_CRITICO:
 
@@ -258,7 +242,6 @@ class AlertManager:
         if resultado:
             mensagens.append(resultado)
 
-        # RAM
 
         if ram > LIMITE_RAM_CRITICO:
 
@@ -290,9 +273,6 @@ class AlertManager:
 
         return mensagens
 
-    # ======================================
-    # VERIFICAR STATUS DOS CONTAINERS
-    # ======================================
 
     def verificar_status_containers(self, containers):
 
@@ -311,9 +291,6 @@ class AlertManager:
 
             anterior = cursor.fetchone()
 
-            # Primeira observação: registra o estado
-            # sem gerar alerta para containers já parados.
-
             if anterior is None:
 
                 self.conn.execute("""
@@ -330,7 +307,6 @@ class AlertManager:
 
             status_anterior = anterior["status"]
 
-            # Container estava rodando e parou.
 
             if (
                 status_anterior == "running"
@@ -348,7 +324,6 @@ class AlertManager:
                 if resultado:
                     mensagens.append(resultado)
 
-                # Encerrar alertas de CPU e RAM.
 
                 for tipo in ["CPU", "RAM"]:
 
@@ -360,7 +335,6 @@ class AlertManager:
                     if resultado:
                         mensagens.append(resultado)
 
-            # Container voltou a executar.
 
             elif (
                 status_anterior != "running"
@@ -375,7 +349,7 @@ class AlertManager:
                 if resultado:
                     mensagens.append(resultado)
 
-            # Atualiza o estado conhecido.
+
 
             self.conn.execute("""
                 UPDATE estado_containers
@@ -387,9 +361,6 @@ class AlertManager:
 
         return mensagens
 
-    # ======================================
-    # ENCERRAR CONEXÃO
-    # ======================================
 
     def fechar_conexao(self):
 
