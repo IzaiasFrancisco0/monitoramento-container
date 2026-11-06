@@ -1,0 +1,17 @@
+# Ambiente virtual
+venv/
+__pycache__/
+*.pyc
+
+# Credenciais
+.env
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos temporários
+*.log
+.DS_Store
+.env.save
