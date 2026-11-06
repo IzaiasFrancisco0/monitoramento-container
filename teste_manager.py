@@ -7,9 +7,7 @@ def main():
 
     try:
 
-        # ==================================
-        # TESTE 1 - LISTAR CONTAINERS
-        # ==================================
+  
 
         print("\n========== CONTAINERS ==========\n")
 
@@ -23,9 +21,6 @@ def main():
             print(f"Imagem: {container['imagem']}")
             print("-" * 40)
 
-        # ==================================
-        # TESTE 2 - CONSULTAR CONTAINER
-        # ==================================
 
         if containers:
 
