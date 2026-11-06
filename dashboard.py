@@ -8,9 +8,6 @@ import streamlit as st
 import plotly.express as px
 
 
-# ==========================================
-# CONFIGURAÇÕES
-# ==========================================
 
 PASTA = Path(__file__).resolve().parent
 DB_PATH = PASTA / "data" / "docker_monitor.db"
@@ -23,9 +20,6 @@ st.set_page_config(
 )
 
 
-# ==========================================
-# ESTILO VISUAL
-# ==========================================
 
 st.markdown("""
 <style>
@@ -73,9 +67,6 @@ div[data-testid="stDataFrame"] {
 """, unsafe_allow_html=True)
 
 
-# ==========================================
-# CONSULTAS SQLITE
-# ==========================================
 
 def consultar_historico():
 
@@ -153,20 +144,13 @@ def consultar_alertas():
     return df
 
 
-
-# ==========================================
-# DASHBOARD
-# ==========================================
-
 @st.fragment(run_every="30s")
 def exibir_dashboard():
 
     historico = consultar_historico()
     ultimas = consultar_ultimas_metricas()
 
-    # ======================================
-    # CABEÇALHO
-    # ======================================
+
 
     st.title("🐳 Docker Monitor")
 
@@ -186,9 +170,6 @@ def exibir_dashboard():
 
         return
 
-    # ======================================
-    # FILTROS
-    # ======================================
 
     st.sidebar.title("⚙️ Configurações")
 
@@ -221,7 +202,7 @@ def exibir_dashboard():
         "Últimos 7 dias": timedelta(days=7)
     }
 
-    # Cópias para não alterar os dados originais
+
 
     dados = historico.copy()
     dados_atuais = ultimas.copy()
@@ -261,9 +242,6 @@ def exibir_dashboard():
         "Atualização automática: 30 segundos"
     )
 
-    # ======================================
-    # INDICADORES
-    # ======================================
 
     total = len(dados_atuais)
 
@@ -299,9 +277,7 @@ def exibir_dashboard():
 
     st.divider()
 
-    # ======================================
-    # ABAS
-    # ======================================
+
 
     aba_visao, aba_containers, aba_historico, aba_alertas = st.tabs([
         "📊 Visão geral",
@@ -310,9 +286,7 @@ def exibir_dashboard():
         "🚨 Alertas"
     ])
 
-    # ======================================
-    # ABA VISÃO GERAL
-    # ======================================
+
 
     with aba_visao:
 
@@ -406,9 +380,6 @@ def exibir_dashboard():
                 use_container_width=True
             )
 
-    # ======================================
-    # ABA CONTAINERS
-    # ======================================
 
     with aba_containers:
 
@@ -445,9 +416,6 @@ def exibir_dashboard():
             "do container."
         )
 
-    # ======================================
-    # ABA HISTÓRICO
-    # ======================================
 
     with aba_historico:
 
@@ -480,9 +448,6 @@ def exibir_dashboard():
         )
 
 
-    # ======================================
-    # ABA ALERTAS
-    # ======================================
 
     with aba_alertas:
 
@@ -581,9 +546,6 @@ def exibir_dashboard():
             )
 
 
-    # ======================================
-    # RODAPÉ
-    # ======================================
 
     st.divider()
 
@@ -598,10 +560,6 @@ def exibir_dashboard():
         )
     )
 
-
-# ==========================================
-# EXECUÇÃO
-# ==========================================
 
 if not DB_PATH.exists():
 
