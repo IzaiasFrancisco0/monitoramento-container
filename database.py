@@ -5,10 +5,6 @@ from pathlib import Path
 from datetime import datetime
 
 
-# ==========================================
-# CONFIGURAÇÕES
-# ==========================================
-
 PASTA = Path(__file__).resolve().parent
 PASTA_DADOS = PASTA / "data"
 
