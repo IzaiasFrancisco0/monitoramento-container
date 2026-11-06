@@ -1,12 +1,11 @@
 import docker
 
-#conectar ao docker engine local
+
 client = docker.from_env()
 
-#verificar conexão
+
 print("conexão  com docker estabelecida")
 
-#listar containers
 containers = client.containers.list(all=True)
 
 print("\nContainers encontrados:")
